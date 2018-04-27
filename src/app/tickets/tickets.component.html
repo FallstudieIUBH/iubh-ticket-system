@@ -1,5 +1,6 @@
-<div class="ticket-main" *ngIf="tickets?.length > 0; else noTickets" > 
-    <ul *ngFor="let ticket of tickets">
+<ng-container *ngIf="(tickets$ | async); let tickets; else Loading">
+  <div class="ticket-main" *ngIf="tickets.length>0; else noTickets">
+<ul *ngFor="let ticket of tickets">
       <mat-card>
         <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
@@ -16,7 +17,7 @@
             <button mat-button (click)="deleteTicket($event, ticket)">Löschen</button>
           </mat-card-actions>
       </mat-card>
-      
+
       <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
           <form #f="ngForm" (ngSubmit)="updateTicket(ticket)">
               <mat-form-field>
@@ -29,8 +30,15 @@
       </div>
     </ul>
   </div>
-  
+  </ng-container>
+
+
 <ng-template #noTickets>
   <hr>
   <h5>Es befinden sich keine Tickets in der Datenbank</h5>
+</ng-template>
+
+<ng-template #Loading>
+  <hr>
+  <h5>Lade Tickets...</h5>
 </ng-template>

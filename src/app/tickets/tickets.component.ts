@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Ticket } from './../models/ticket.model';
 import { TicketService } from './../services/ticket.service';
+import {Observable} from "rxjs/Observable";
 
 
 @Component({
@@ -10,16 +11,14 @@ import { TicketService } from './../services/ticket.service';
   styleUrls: ['./tickets.component.css']
 })
 export class TicketsComponent implements OnInit {
-  tickets: Ticket[];
+  tickets$: Observable<any>;
   answerState: boolean = false;
   ticketToAnswer: Ticket;
 
   constructor(private ticketService: TicketService) { }
 
   ngOnInit() {
-    this.ticketService.getTickets().subscribe(tickets => {
-      this.tickets = tickets;
-    });
+   this.tickets$ = this.ticketService.getTickets();
   }
 
   deleteTicket(event, ticket: Ticket){

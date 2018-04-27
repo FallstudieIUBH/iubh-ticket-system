@@ -13,18 +13,16 @@ export class TicketService {
 
     constructor(public afs: AngularFirestore) {
         this.ticketCollection = this.afs.collection('tickets', ref => ref.orderBy('datum', 'asc'));
-        this.tickets = this.ticketCollection.snapshotChanges().map(changes => {
-        return changes.map(a => {
-            const data = a.payload.doc.data() as Ticket;
-            data.ticketId = a.payload.doc.id;
-            return data;
-            });
-        });
-
     }
 
-    getTickets() {
-        return this.tickets;
+    getTickets(): Observable<any> {
+      return this.tickets = this.ticketCollection.snapshotChanges().map(changes => {
+        return changes.map(a => {
+          const data = a.payload.doc.data() as Ticket;
+          data.ticketId = a.payload.doc.id;
+          return data;
+        });
+      });
     }
 
     addTicket(ticket: Ticket) {
