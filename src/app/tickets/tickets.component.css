@@ -1,0 +1,12 @@
+ul {
+    text-align:center;
+}
+
+mat-card {
+    margin-right: 32px;
+    text-align: center;
+}
+
+mat-form-field {
+    width: 33%;
+}
