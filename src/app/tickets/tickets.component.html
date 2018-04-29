@@ -39,6 +39,11 @@
 </ng-template>
 
 <ng-template #Loading>
-  <hr>
-  <h5>Lade Tickets...</h5>
+  <div class="loading-indicator">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    value="value">
+  </mat-progress-spinner>
+  </div>
 </ng-template>
