@@ -14,6 +14,15 @@ export class TicketsComponent implements OnInit {
   tickets$: Observable<any>;
   answerState: boolean = false;
   ticketToAnswer: Ticket;
+  selectedCategory: String;
+
+  kategories = [
+    {value: '-'},
+    {value: 'Prüfungsamt'},
+    {value: 'Administration'},
+    {value: 'IT-Support'},
+    {value: 'Sonstiges'}
+  ];
 
   constructor(private ticketService: TicketService) { }
 

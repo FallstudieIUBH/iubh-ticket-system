@@ -1,7 +1,14 @@
 <ng-container *ngIf="(tickets$ | async); let tickets; else Loading">
   <div class="ticket-main" *ngIf="tickets.length>0; else noTickets">
+    <mat-form-field id="filter">
+    <mat-select placeholder="Kategorie wählen" [(ngModel)]="this.selectedCategory" name="kategorie"  >
+      <mat-option *ngFor="let kategorie of kategories" [value]="kategorie.value">
+        {{ kategorie.value }}
+      </mat-option>
+    </mat-select>
+      </mat-form-field>
 <ul *ngFor="let ticket of tickets">
-      <mat-card>
+      <mat-card *ngIf="this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-'">
         <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
           <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
@@ -34,7 +41,6 @@
 
 
 <ng-template #noTickets>
-  <hr>
   <h5>Es befinden sich keine Tickets in der Datenbank</h5>
 </ng-template>
 
