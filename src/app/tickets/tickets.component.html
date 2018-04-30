@@ -7,38 +7,71 @@
       </mat-option>
     </mat-select>
       </mat-form-field>
-<ul *ngFor="let ticket of tickets">
-      <mat-card *ngIf="this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-'">
-        <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
+    <mat-tab-group class="tabNav">
+      <mat-tab label="Offen">
+        <ul *ngFor="let ticket of tickets">
+        <mat-card *ngIf="ticket.status == 'offen' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
+          <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
           <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
             <p>{{ticket.text}}</p>
-          <hr>
+            <hr>
             <p>{{ticket.antwort}}</p>
-          <hr>
+            <hr>
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="answerTicket($event, ticket)">Antworten</button>
             <button mat-button (click)="deleteTicket($event, ticket)">Löschen</button>
           </mat-card-actions>
-      </mat-card>
+        </mat-card>
 
-      <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
+        <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
           <form #f="ngForm" (ngSubmit)="updateTicket(ticket)">
-              <mat-form-field>
+            <mat-form-field>
                   <textarea type="text" matInput placeholder="Antwort" matTextareaAutosize matAutosizeMinRows="4"
-                  [(ngModel)]="ticket.antwort" name="anwort" maxlength="1200" #antwortInput="ngModel"></textarea>
-                  <mat-hint align="end">{{ antwortInput.value?.length }} / 1200</mat-hint>
-              </mat-form-field>
-              <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Submit</button>
+                            [(ngModel)]="ticket.antwort" name="anwort" maxlength="1200" #antwortInput="ngModel"></textarea>
+              <mat-hint align="end">{{ antwortInput.value?.length }} / 1200</mat-hint>
+            </mat-form-field>
+            <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Submit</button>
           </form>
-      </div>
-    </ul>
+        </div>
+      </ul>
+      </mat-tab>
+      <mat-tab label="Beantwortet" class="tabNav">
+        <ul *ngFor="let ticket of tickets">
+        <mat-card *ngIf="ticket.status == 'beantwortet' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
+          <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
+          <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
+          <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+          <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
+          <mat-card-content>
+            <p>{{ticket.text}}</p>
+            <hr>
+            <p>{{ticket.antwort}}</p>
+            <hr>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="answerTicket($event, ticket)">Antworten</button>
+            <button mat-button (click)="deleteTicket($event, ticket)">Löschen</button>
+          </mat-card-actions>
+        </mat-card>
+
+        <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
+          <form #f="ngForm" (ngSubmit)="updateTicket(ticket)">
+            <mat-form-field>
+                  <textarea type="text" matInput placeholder="Antwort" matTextareaAutosize matAutosizeMinRows="4"
+                            [(ngModel)]="ticket.antwort" name="anwort" maxlength="1200" #antwortInput="ngModel"></textarea>
+              <mat-hint align="end">{{ antwortInput.value?.length }} / 1200</mat-hint>
+            </mat-form-field>
+            <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Submit</button>
+          </form>
+        </div>
+      </ul></mat-tab>
+    </mat-tab-group>
   </div>
   </ng-container>
-
 
 <ng-template #noTickets>
   <h5>Es befinden sich keine Tickets in der Datenbank</h5>
