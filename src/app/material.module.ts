@@ -10,7 +10,8 @@ import {
     MatSnackBarModule,
     MatCardModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+
 } from '@angular/material';
 
 @NgModule({
