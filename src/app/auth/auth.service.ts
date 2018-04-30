@@ -57,10 +57,10 @@ export class AuthService {
                 return this.setUserDoc(user);
             })
             .then(result => {
-                this.uiService.showSnackbar('Erfolgreich registriert', null, 3000);
+                this.uiService.showSnackbar('Erfolgreich registriert', null, 3000, 'success');
             })
             .catch(error => {
-                this.uiService.showSnackbar(error.message, null, 3000);
+                this.uiService.showSnackbar(error.message, null, 3000, 'success');
             });
     }
 
@@ -95,16 +95,16 @@ export class AuthService {
         this.afAuth.auth.signInWithEmailAndPassword(authData.email, authData.password)
         .then(result => {
         this.router.navigate(['/ticketformular']);
-        this.uiService.showSnackbar('Erfolgreich angemeldet', null, 3000);
+        this.uiService.showSnackbar('Erfolgreich angemeldet', null, 3000, 'success');
         })
         .catch(error => {
-            this.uiService.showSnackbar(error.message, null, 3000);
+            this.uiService.showSnackbar(error.message, null, 3000, 'error');
         }); 
     }
 
     logout() {
         this.afAuth.auth.signOut();
-        this.uiService.showSnackbar('Erfolgreich abgemeldet', null, 3000);
+        this.uiService.showSnackbar('Erfolgreich abgemeldet', null, 3000, 'success');
     }
 
     canRead(user: User): boolean {

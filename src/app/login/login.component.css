@@ -1,0 +1,12 @@
+form {
+    margin-top: 3%;
+}
+
+mat-form-field {
+    width:300px;
+    padding-bottom: 20px;
+}
+
+button {
+    margin-top: 2%;
+}

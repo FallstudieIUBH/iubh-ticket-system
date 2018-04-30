@@ -28,18 +28,18 @@ export class TicketService {
 
     addTicket(ticket: Ticket) {
         this.ticketCollection.add(ticket);
-        this.uiService.showSnackbar('Ticket erfolgreich gesendet', null, 3000);
+        this.uiService.showSnackbar('Ticket erfolgreich gesendet', null, 3000, 'success');
     }
 
     updateTicket(ticket: Ticket) {
         this.ticketDoc = this.afs.doc(`tickets/${ticket.ticketId}`);
         this.ticketDoc.update(ticket);
-        this.uiService.showSnackbar('Antwort erfolgreich gesendet', null, 3000);
+        this.uiService.showSnackbar('Antwort erfolgreich gesendet', null, 3000, 'success');
     }
 
     deleteTicket(ticket: Ticket) {
         this.ticketDoc = this.afs.doc(`tickets/${ticket.ticketId}`);
         this.ticketDoc.delete();
-        this.uiService.showSnackbar('Ticket erfolgreich gelöscht', null, 3000);
+        this.uiService.showSnackbar('Ticket erfolgreich gelöscht', null, 3000, 'success');
     }
 }

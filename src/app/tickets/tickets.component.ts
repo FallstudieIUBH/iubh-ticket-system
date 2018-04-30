@@ -32,7 +32,6 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
    this.tickets$ = this.ticketService.getTickets();
-
    this.auth.user.subscribe(user => this.user = user)
   }
 
