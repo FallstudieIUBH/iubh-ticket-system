@@ -13,6 +13,7 @@ import { User, Memberstate } from '../models/user.model';
 import { AuthData } from '../models/auth.model';
 import * as fromRoot from '../app.reducer';
 import * as Auth from './auth.actions';
+import { UIService } from '../services/ui.Service';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +25,8 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
                 private router: Router,
-                private store: Store<fromRoot.State>) {
+                private store: Store<fromRoot.State>,
+                private uiService: UIService) {
 
         this.user = this.afAuth.authState
             .switchMap(user => {
@@ -52,17 +54,18 @@ export class AuthService {
     signUp(authData: AuthData) {
         return this.afAuth.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then(user => {
-                return this.setUserDoc(user)
+                return this.setUserDoc(user);
             })
-            .catch(error => this.handleError(error));
+            .then(result => {
+                this.uiService.showSnackbar('Erfolgreich registriert', null, 3000);
+            })
+            .catch(error => {
+                this.uiService.showSnackbar(error.message, null, 3000);
+            });
     }
 
     updateUser(user: User, data: any) {
         return this.afs.doc(`users/${user.uid}`).update(data);
-    }
-
-    private handleError(error) {
-        console.error(error);
     }
 
     private setUserDoc(user) {
@@ -90,14 +93,18 @@ export class AuthService {
 
     login(authData: AuthData) {
         this.afAuth.auth.signInWithEmailAndPassword(authData.email, authData.password)
+        .then(result => {
         this.router.navigate(['/ticketformular']);
-         /*  .catch(error => {
+        this.uiService.showSnackbar('Erfolgreich angemeldet', null, 3000);
+        })
+        .catch(error => {
             this.uiService.showSnackbar(error.message, null, 3000);
-          }); */
+        }); 
     }
 
     logout() {
         this.afAuth.auth.signOut();
+        this.uiService.showSnackbar('Erfolgreich abgemeldet', null, 3000);
     }
 
     canRead(user: User): boolean {

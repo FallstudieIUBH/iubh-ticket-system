@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Ticket } from '../models/ticket.model';
+import { UIService } from './ui.Service';
 
 
 
@@ -11,7 +12,7 @@ export class TicketService {
     tickets: Observable<Ticket[]>;
     ticketDoc: AngularFirestoreDocument<Ticket>;
 
-    constructor(public afs: AngularFirestore) {
+    constructor(public afs: AngularFirestore, private uiService: UIService) {
         this.ticketCollection = this.afs.collection('tickets', ref => ref.orderBy('datum', 'asc'));
     }
 
@@ -27,15 +28,18 @@ export class TicketService {
 
     addTicket(ticket: Ticket) {
         this.ticketCollection.add(ticket);
+        this.uiService.showSnackbar('Ticket erfolgreich gesendet', null, 3000);
     }
 
     updateTicket(ticket: Ticket) {
         this.ticketDoc = this.afs.doc(`tickets/${ticket.ticketId}`);
         this.ticketDoc.update(ticket);
+        this.uiService.showSnackbar('Antwort erfolgreich gesendet', null, 3000);
     }
 
     deleteTicket(ticket: Ticket) {
         this.ticketDoc = this.afs.doc(`tickets/${ticket.ticketId}`);
         this.ticketDoc.delete();
+        this.uiService.showSnackbar('Ticket erfolgreich gelöscht', null, 3000);
     }
 }

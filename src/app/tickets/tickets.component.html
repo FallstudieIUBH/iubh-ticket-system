@@ -22,12 +22,15 @@
             <hr>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="answerTicket($event, ticket)">Antworten</button>
-            <button mat-button (click)="deleteTicket($event, ticket)">Löschen</button>
+            <button mat-button  (click)="answerTicket($event, ticket)">Antworten</button>
+            <button mat-button  (click)="deleteTicket($event, ticket)">Löschen</button>
           </mat-card-actions>
         </mat-card>
 
-        <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
+<!-- Derzeit wegen Testgründen entfernt     *ngIf="auth.canEdit(user)"
+      *ngIf="auth.canDelete(user)" -->
+
+      <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
           <form #f="ngForm" (ngSubmit)="updateTicket(ticket)">
             <mat-form-field>
                   <textarea type="text" matInput placeholder="Antwort" matTextareaAutosize matAutosizeMinRows="4"

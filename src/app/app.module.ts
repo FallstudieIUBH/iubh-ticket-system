@@ -19,6 +19,7 @@ import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { TicketService } from './services/ticket.service';
 import { reducers } from './app.reducer';
+import { UIService } from './services/ui.Service';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { reducers } from './app.reducer';
     AuthModule,
     StoreModule.forRoot(reducers)
   ],
-  providers: [TicketService],
+  providers: [TicketService, UIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
