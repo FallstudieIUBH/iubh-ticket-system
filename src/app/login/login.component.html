@@ -23,6 +23,6 @@
       <mat-hint>Bitte dein Passwort eingeben.</mat-hint>
       <mat-error>Fehlendes Passwort.</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
+    <button matTooltip="Ohne Registrierung ist kein Login möglich" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
   </form>
 </section>

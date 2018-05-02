@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Ticket } from './../models/ticket.model';
 import { TicketService } from './../services/ticket.service';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 import { AuthService } from '../auth/auth.service';
 import { User } from './../models/user.model';
 
@@ -44,9 +44,16 @@ export class TicketsComponent implements OnInit {
     this.ticketToAnswer = ticket;
   }
 
+  closeTicket(event, ticket: Ticket){
+    ticket.status = 'beantwortet';
+    ticket.closed = true;
+    this.ticketService.updateTicket(ticket);
+  }
+
   updateTicket(ticket: Ticket){
     this.answerState = false;
-    ticket.status = 'beantwortet';
+    ticket.status = 'in Bearbeitung';
+    ticket.antwortdatum = new Date();
     this.ticketService.updateTicket(ticket);
   }
 

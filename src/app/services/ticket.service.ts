@@ -34,7 +34,7 @@ export class TicketService {
     updateTicket(ticket: Ticket) {
         this.ticketDoc = this.afs.doc(`tickets/${ticket.ticketId}`);
         this.ticketDoc.update(ticket);
-        this.uiService.showSnackbar('Antwort erfolgreich gesendet', null, 3000, 'success');
+        this.uiService.showSnackbar('Ticket erfolgreich geupdated', null, 3000, 'success');
     }
 
     deleteTicket(ticket: Ticket) {

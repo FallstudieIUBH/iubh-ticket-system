@@ -1,11 +1,15 @@
 <section class="ticket-form">
   <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <mat-form-field>
+    <mat-form-field >
       <mat-select placeholder="Kategorie wählen" [(ngModel)]="ticket.kategorie" name="kategorie"  >
         <mat-option *ngFor="let kategorie of kategories" [value]="kategorie.value">
           {{ kategorie.value }}
         </mat-option>  
       </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Betreff" [(ngModel)]="ticket.betreff" name="betreff" required #betreffInput="ngModel">
+      <mat-error *ngIf="betreffInput.hasError('required')">Pflichtfeld.</mat-error>
     </mat-form-field>
     <mat-form-field>
         <textarea type="text" matInput placeholder="Text" matTextareaAutosize matAutosizeMinRows="4"

@@ -11,24 +11,24 @@
       <mat-tab label="Offen">
     <ul *ngFor="let ticket of tickets">
         <mat-card *ngIf="ticket.status == 'offen' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
-          <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
+          <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
+          <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
           <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
-            <p>{{ticket.text}}</p>
+            <p>Student: {{ticket.text}}</p>
+            <div *ngIf="ticket.antwort">
             <hr>
-            <p>{{ticket.antwort}}</p>
+            <p> {{ticket.antwortdatum | date:'medium' }} IUBH-Support: {{ticket.antwort}}</p>
+            </div>
             <hr>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button  (click)="answerTicket($event, ticket)">Antworten</button>
-            <button mat-button  (click)="deleteTicket($event, ticket)">Löschen</button>
+            <button mat-button *ngIf="auth.canEdit(user)" (click)="answerTicket($event, ticket)">Antworten</button>
+            <button mat-button *ngIf="auth.canDelete(user)" (click)="deleteTicket($event, ticket)">Löschen</button>
           </mat-card-actions>
         </mat-card>
-
-<!-- Derzeit wegen Testgründen entfernt     *ngIf="auth.canEdit(user)"
-      *ngIf="auth.canDelete(user)" -->
 
       <div *ngIf="answerState && ticketToAnswer.ticketId == ticket.ticketId">
           <form #f="ngForm" (ngSubmit)="updateTicket(ticket)">
@@ -42,17 +42,20 @@
         </div>
     </ul>
       </mat-tab>
-      <mat-tab label="Beantwortet" class="tabNav">
+      <mat-tab label="in Bearbeitung" class="tabNav">
         <ul *ngFor="let ticket of tickets">
-        <mat-card *ngIf="ticket.status == 'beantwortet' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
-          <mat-card-title>UserID: {{ticket.uid }}</mat-card-title>
+        <mat-card *ngIf="ticket.status == 'in Bearbeitung' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
+          <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
+          <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
           <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
-            <p>{{ticket.text}}</p>
+            <p>Student: {{ticket.text}}</p>
+            <div *ngIf="ticket.antwort">
             <hr>
-            <p>{{ticket.antwort}}</p>
+            <p>{{ticket.antwortdatum | date:'medium' }} IUBH-Support: {{ticket.antwort}}</p>
+            </div>
             <hr>
           </mat-card-content>
           <mat-card-actions>
@@ -72,6 +75,24 @@
           </form>
         </div>
       </ul></mat-tab>
+      <mat-tab label="Beantwortet" class="tabNav">
+          <ul *ngFor="let ticket of tickets">
+          <mat-card *ngIf="ticket.status == 'beantwortet' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
+            <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
+            <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
+            <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
+            <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+            <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
+            <mat-card-content>
+              <p>Student: {{ticket.text}}</p>
+              <div *ngIf="ticket.antwort">
+              <hr>
+              <p>{{ticket.antwortdatum | date:'medium' }} IUBH-Support: {{ticket.antwort}}</p>
+              </div>
+              <hr>
+            </mat-card-content>
+          </mat-card>
+        </ul></mat-tab>
     </mat-tab-group>
   </div>
 </ng-container>

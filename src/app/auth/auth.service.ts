@@ -60,7 +60,7 @@ export class AuthService {
                 this.uiService.showSnackbar('Erfolgreich registriert', null, 3000, 'success');
             })
             .catch(error => {
-                this.uiService.showSnackbar(error.message, null, 3000, 'success');
+                this.uiService.showSnackbar(error.message, null, 3000, 'error');
             });
     }
 

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 
 html {
     height:100%;
@@ -7,12 +7,4 @@ html {
 
 body {
     margin:0;
-}
-
-.success {
-    background-color: rgb(82, 218, 98);
-}
-
-.error {
-    background-color: rgb(249, 22, 22);
 }

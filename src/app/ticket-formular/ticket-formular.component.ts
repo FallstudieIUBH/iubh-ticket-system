@@ -16,9 +16,11 @@ export class TicketFormularComponent implements OnInit {
 
   ticket: Ticket = {
     uid: '',
+    betreff: '',
     kategorie: '',
     text: '',
     status: 'offen',
+    closed: false,
     datum: new Date()
   };
 

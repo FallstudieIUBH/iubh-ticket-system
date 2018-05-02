@@ -2,8 +2,11 @@ export interface Ticket {
     ticketId?: string;
     uid?: string;
     kategorie?: string; /* 'Prüfungsamt' | 'Administration' | 'IT-Support' | 'Sonstiges' | null; */
+    betreff?: string;
     text?: string;
-    status?: 'offen' | 'beantwortet' | null;
+    status?: 'offen' | 'in Bearbeitung' | 'beantwortet' | null;
+    closed?: boolean;
     datum?: any;
-    antwort?: string;
+    antwortdatum?: any;
+    antwort?: string; 
 }
