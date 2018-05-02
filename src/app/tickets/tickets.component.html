@@ -15,6 +15,7 @@
           <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
           <mat-card-subtitle>
+            Kategorie:
             <mat-form-field class="changeCategory">
               <mat-select [(ngModel)]="ticket.kategorie" name="kategorie"  >
                 <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
@@ -56,7 +57,7 @@
           <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
-          <mat-card-subtitle>
+          <mat-card-subtitle>Kategorie:
             <mat-form-field class="changeCategory">
               <mat-select [(ngModel)]="ticket.kategorie" name="kategorie">
                 <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
