@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Ticket } from './../models/ticket.model';
 import { TicketService } from './../services/ticket.service';
@@ -18,13 +18,22 @@ export class TicketsComponent implements OnInit {
   ticketToAnswer: Ticket;
   selectedCategory: String;
 
-  kategories = [
+  categories = [
     {value: '-'},
     {value: 'Prüfungsamt'},
     {value: 'Administration'},
     {value: 'IT-Support'},
     {value: 'Sonstiges'}
   ];
+
+  categoriesTicket = [
+    {value: 'Prüfungsamt'},
+    {value: 'Administration'},
+    {value: 'IT-Support'},
+    {value: 'Sonstiges'}
+  ];
+
+
 
   user: User;
 

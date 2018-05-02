@@ -2,7 +2,7 @@
   <div class="ticket-main" *ngIf="tickets.length>0; else noTickets">
     <mat-form-field id="filter">
     <mat-select placeholder="Kategorie wählen" [(ngModel)]="this.selectedCategory" name="kategorie"  >
-      <mat-option *ngFor="let kategorie of kategories" [value]="kategorie.value">
+      <mat-option *ngFor="let kategorie of categories" [value]="kategorie.value">
         {{ kategorie.value }}
       </mat-option>
     </mat-select>
@@ -14,7 +14,15 @@
           <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
           <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
-          <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-form-field class="changeCategory">
+              <mat-select [(ngModel)]="ticket.kategorie" name="kategorie"  >
+                <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
+                  {{ kategorie.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
             <p>Student: {{ticket.text}}</p>
@@ -48,7 +56,15 @@
           <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
-          <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+          <mat-card-subtitle>
+            <mat-form-field class="changeCategory">
+              <mat-select [(ngModel)]="ticket.kategorie" name="kategorie">
+                <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
+                  {{ kategorie.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
             <p>Student: {{ticket.text}}</p>
