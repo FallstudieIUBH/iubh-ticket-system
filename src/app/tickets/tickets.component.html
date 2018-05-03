@@ -1,6 +1,6 @@
 <ng-container *ngIf="(tickets$ | async); let tickets; else Loading">
   <div class="ticket-main" *ngIf="tickets.length>0; else noTickets">
-    <mat-form-field id="filter">
+    <mat-form-field *ngIf="auth.canEdit(user)" id="filter">
     <mat-select placeholder="Kategorie wählen" [(ngModel)]="this.selectedCategory" name="kategorie"  >
       <mat-option *ngFor="let kategorie of categories" [value]="kategorie.value">
         {{ kategorie.value }}

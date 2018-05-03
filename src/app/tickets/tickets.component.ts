@@ -33,6 +33,7 @@ export class TicketsComponent implements OnInit {
     {value: 'Sonstiges'}
   ];
 
+  uid: String;
   user: User;
 
   constructor(private ticketService: TicketService, public auth: AuthService) { 
@@ -40,7 +41,7 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
      this.auth.user.subscribe((user) => {
-      if(user) { this.user = user; 
+      if(user) { this.user = user; this.uid = user.uid;
         } else { console.log("Status: no user");
         }
       if (this.auth.canEdit(this.user)) {
@@ -48,7 +49,7 @@ export class TicketsComponent implements OnInit {
         this.loadAllTickets(); 
       } else {
         console.log('Status: user');
-        this.loadUserTicket(user.uid);
+        this.loadUserTicket(this.uid);
         }
       })
   }
