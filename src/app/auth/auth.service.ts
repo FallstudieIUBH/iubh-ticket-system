@@ -28,7 +28,7 @@ export class AuthService {
                 private store: Store<fromRoot.State>,
                 private uiService: UIService) {
 
-        this.user = this.afAuth.authState
+            this.user = this.afAuth.authState
             .switchMap(user => {
                 if (user) {
                     return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
@@ -36,7 +36,6 @@ export class AuthService {
                     return Observable.of(null)
                 }
             });
-
     }
 
     initAuthListener() {

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Ticket } from './../models/ticket.model';
 import { TicketService } from './../services/ticket.service';
 import {Observable} from 'rxjs/Observable';
 import { AuthService } from '../auth/auth.service';
 import { User } from './../models/user.model';
-
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-tickets',
@@ -18,8 +18,15 @@ export class TicketsComponent implements OnInit {
   ticketToAnswer: Ticket;
   selectedCategory: String;
 
-  kategories = [
+  categories = [
     {value: '-'},
+    {value: 'Prüfungsamt'},
+    {value: 'Administration'},
+    {value: 'IT-Support'},
+    {value: 'Sonstiges'}
+  ];
+
+  categoriesTicket = [
     {value: 'Prüfungsamt'},
     {value: 'Administration'},
     {value: 'IT-Support'},
@@ -28,11 +35,30 @@ export class TicketsComponent implements OnInit {
 
   user: User;
 
-  constructor(private ticketService: TicketService, private auth: AuthService) { }
+  constructor(private ticketService: TicketService, public auth: AuthService) { 
+  }
 
   ngOnInit() {
-   this.tickets$ = this.ticketService.getTickets();
-   this.auth.user.subscribe(user => this.user = user)
+     this.auth.user.subscribe((user) => {
+      if(user) { this.user = user; 
+        } else { console.log("Status: no user");
+        }
+      if (this.auth.canEdit(this.user)) {
+        console.log('Status: admin');
+        this.loadAllTickets(); 
+      } else {
+        console.log('Status: user');
+        this.loadUserTicket(user.uid);
+        }
+      })
+  }
+
+  private loadAllTickets() {
+    this.tickets$ = this.ticketService.getTickets(); 
+  }
+
+  private loadUserTicket(uid){
+    this.tickets$ = this.ticketService.getUserTickets(uid);
   }
 
   deleteTicket(event, ticket: Ticket){
@@ -46,7 +72,12 @@ export class TicketsComponent implements OnInit {
 
   closeTicket(event, ticket: Ticket){
     ticket.status = 'beantwortet';
-    ticket.closed = true;
+    this.ticketService.updateTicket(ticket);
+  }
+
+  reopenTicket(event, ticket: Ticket){
+    ticket.status = 'in Bearbeitung';
+
     this.ticketService.updateTicket(ticket);
   }
 

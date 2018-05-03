@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../app.reducer';
 import { AuthService } from '../auth/auth.service';
+import { User } from './../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +14,19 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent implements OnInit {
   isAuth$: Observable<boolean>;
 
-  constructor(private store: Store<fromRoot.State>, private authService: AuthService) { }
+  user: User;
+
+  constructor(private store: Store<fromRoot.State>, private auth: AuthService) { }
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.auth.user.subscribe((user) => {
+      this.user = user;
+    })
   }
 
   onLogout() {
-    this.authService.logout();
+    this.auth.logout();
   }
 
 }

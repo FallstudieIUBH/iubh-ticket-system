@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { TicketService } from './../services/ticket.service';
 import { Ticket } from './../models/ticket.model';
-import { AuthService } from '../auth/auth.service';
 import * as firebase from 'firebase/app';
 
 @Component({
@@ -20,7 +19,6 @@ export class TicketFormularComponent implements OnInit {
     kategorie: '',
     text: '',
     status: 'offen',
-    closed: false,
     datum: new Date()
   };
 
@@ -31,7 +29,7 @@ export class TicketFormularComponent implements OnInit {
     {value: 'Sonstiges'}
   ];
 
-  constructor(private ticketService: TicketService, private router: Router, private authService: AuthService) { }
+  constructor(private ticketService: TicketService, private router: Router) { }
 
   ngOnInit() {
   }

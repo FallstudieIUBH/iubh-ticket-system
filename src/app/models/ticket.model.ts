@@ -5,7 +5,7 @@ export interface Ticket {
     betreff?: string;
     text?: string;
     status?: 'offen' | 'in Bearbeitung' | 'beantwortet' | null;
-    closed?: boolean;
+    /*   closed?: boolean; */
     datum?: any;
     antwortdatum?: any;
     antwort?: string; 

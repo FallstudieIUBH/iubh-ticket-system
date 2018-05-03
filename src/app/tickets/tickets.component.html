@@ -2,7 +2,7 @@
   <div class="ticket-main" *ngIf="tickets.length>0; else noTickets">
     <mat-form-field id="filter">
     <mat-select placeholder="Kategorie wählen" [(ngModel)]="this.selectedCategory" name="kategorie"  >
-      <mat-option *ngFor="let kategorie of kategories" [value]="kategorie.value">
+      <mat-option *ngFor="let kategorie of categories" [value]="kategorie.value">
         {{ kategorie.value }}
       </mat-option>
     </mat-select>
@@ -12,9 +12,18 @@
     <ul *ngFor="let ticket of tickets">
         <mat-card *ngIf="ticket.status == 'offen' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
           <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
-          <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
+          <button matTooltip="Ticket als 'Beantwortet' archivieren" *ngIf="auth.canEdit(user)" class="ticket-close" mat-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
-          <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="auth.canEdit(user)">Kategorie:
+            <mat-form-field class="changeCategory">
+              <mat-select [(ngModel)]="ticket.kategorie" name="kategorie"  >
+                <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
+                   {{ kategorie.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-subtitle>
+          <mat-card-subtitle *ngIf="!auth.canEdit(user)">Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
             <p>Student: {{ticket.text}}</p>
@@ -45,10 +54,19 @@
       <mat-tab label="in Bearbeitung" class="tabNav">
         <ul *ngFor="let ticket of tickets">
         <mat-card *ngIf="ticket.status == 'in Bearbeitung' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
-          <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
+          <button matTooltip="Ticket als 'Beantwortet' archivieren" *ngIf="auth.canEdit(user)" class="ticket-close" mat-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
           <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
           <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
-          <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="auth.canEdit(user)">Kategorie:
+              <mat-form-field class="changeCategory">
+                <mat-select [(ngModel)]="ticket.kategorie" name="kategorie"  >
+                  <mat-option *ngFor="let kategorie of categoriesTicket" [value]="kategorie.value">
+                    {{ kategorie.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-subtitle>
+          <mat-card-subtitle *ngIf="!auth.canEdit(user)">Kategorie: {{ticket.kategorie}}</mat-card-subtitle>
           <mat-card-subtitle>Status: {{ticket.status}}</mat-card-subtitle>
           <mat-card-content>
             <p>Student: {{ticket.text}}</p>
@@ -59,8 +77,8 @@
             <hr>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="answerTicket($event, ticket)">Antworten</button>
-            <button mat-button (click)="deleteTicket($event, ticket)">Löschen</button>
+            <button mat-button *ngIf="auth.canEdit(user)" (click)="answerTicket($event, ticket)">Antworten</button>
+            <button mat-button *ngIf="auth.canDelete(user)" (click)="deleteTicket($event, ticket)">Löschen</button>
           </mat-card-actions>
         </mat-card>
 
@@ -78,7 +96,7 @@
       <mat-tab label="Beantwortet" class="tabNav">
           <ul *ngFor="let ticket of tickets">
           <mat-card *ngIf="ticket.status == 'beantwortet' && (this.selectedCategory == ticket.kategorie || this.selectedCategory == undefined || this.selectedCategory == '-')">
-            <button *ngIf="auth.canEdit(user)" class="ticket-close" mat-mini-fab color="primary" (click)="closeTicket($event, ticket)">Close</button>
+            <button matTooltip="Ticket Status wieder in Bearbeitung setzen" *ngIf="auth.canEdit(user)" class="ticket-close" mat-fab color="primary" (click)="reopenTicket($event, ticket)">ReOpen</button>
             <mat-card-title>Betreff: {{ticket.betreff }}</mat-card-title>
             <mat-card-subtitle>Datum: {{ticket.datum | date:'medium'}}</mat-card-subtitle>
             <mat-card-subtitle>Kategorie: {{ticket.kategorie}}</mat-card-subtitle>

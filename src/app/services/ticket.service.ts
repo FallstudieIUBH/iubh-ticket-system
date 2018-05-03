@@ -5,15 +5,16 @@ import { Ticket } from '../models/ticket.model';
 import { UIService } from './ui.Service';
 
 
-
 @Injectable()
 export class TicketService {
     ticketCollection: AngularFirestoreCollection<Ticket>;
+    userTicketCollection: AngularFirestoreCollection<Ticket>;
     tickets: Observable<Ticket[]>;
+
     ticketDoc: AngularFirestoreDocument<Ticket>;
 
     constructor(public afs: AngularFirestore, private uiService: UIService) {
-        this.ticketCollection = this.afs.collection('tickets', ref => ref.orderBy('datum', 'asc'));
+        this.ticketCollection = this.afs.collection('tickets', ref => ref.orderBy('datum', 'desc'));
     }
 
     getTickets(): Observable<any> {
@@ -24,6 +25,11 @@ export class TicketService {
           return data;
         });
       });
+    }
+
+    getUserTickets(uid): Observable<any> {
+        const userTickets = this.afs.collection('tickets', ref => ref.where('uid', '==', uid));
+        return userTickets.valueChanges();
     }
 
     addTicket(ticket: Ticket) {
