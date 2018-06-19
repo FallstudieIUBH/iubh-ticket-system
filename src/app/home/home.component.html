@@ -1,5 +1,6 @@
 <ng-container *ngIf="(auth.user | async) || {} as user">
   <section>
+    <h1 class="titel">Registrierung</h1>
     <form
       fxLayout="column"
       fxLayoutAlign="center center"
@@ -22,7 +23,7 @@
           matInput
           placeholder="Wähle ein Passwort"
           formControlName="password">
-        <mat-hint>Das Passwort muss zwischen 6 und 24 Buchstaben beinhalten.</mat-hint>
+        <mat-hint>Das Passwort muss zwischen 6 und 24 Zeichen beinhalten.</mat-hint>
         <mat-error>Fehlendes Passwort.</mat-error>
       </mat-form-field>
       <button type="submit" mat-raised-button color="primary" [disabled]="!signupForm.valid">Registrieren</button>

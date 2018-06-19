@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
 
   signupForm: FormGroup;
   /* dataForm: FormGroup; */
-  
+
   constructor(public fb: FormBuilder, public auth: AuthService) { }
 
   ngOnInit() {
